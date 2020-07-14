@@ -68,11 +68,16 @@ class DoublyLinkedList:
             tempPointer = self.head
             result = self.head.get_value()
 
-            self.head.next.set_prev(None)
-            self.head = self.head.next
+            if self.head.next != None:  # If there are more than one node in the linked list
+                self.head.next.set_prev(None)
+                self.head = self.head.next
 
-            tempPointer.set_next(None)
-            self.length -= 1
+                tempPointer.set_next(None)
+                self.length -= 1
+            else:  # linked list contains only one node
+                self.head = None
+                self.tail = None
+                self.length = 0
             return result
 
         return None
@@ -104,12 +109,18 @@ class DoublyLinkedList:
     def remove_from_tail(self):
 
         if self.tail != None:
-            self.length -= 1
             result = self.tail.get_value()
-            tempPointer = self.tail
 
-            self.tail = self.tail.prev
-            tempPointer.set_prev(None)
+            if self.tail.prev != None:
+                self.length -= 1
+                tempPointer = self.tail
+
+                self.tail = self.tail.prev
+                tempPointer.set_prev(None)
+            else:
+                self.head = None
+                self.tail = None
+                self.length = 0
 
             return result
 
@@ -121,15 +132,23 @@ class DoublyLinkedList:
     """
 
     def move_to_front(self, node):
-        tempNextPointer = node.next
-        tempPrevPointer = node.prev
-        node.prev.set_prev(tempNextPointer)
-        node.next.set_next(tempPrevPointer)
+        if node.next != None and node.prev != None:  # if passed node is between other nodes
+            tempNextPointer = node.next
+            tempPrevPointer = node.prev
+            node.prev.set_next(tempNextPointer)
+            node.next.set_prev(tempPrevPointer)
 
-        node.set_prev(None)
-        node.set_next(self.head)
-        self.head.set_prev(node)
-        self.head = node
+            node.set_prev(None)
+            node.set_next(self.head)
+            self.head.set_prev(node)
+            self.head = node
+        elif node.next == None and node.prev != None:  # if passed node is the last node in the linked list
+            self.tail = node.prev
+            node.prev.set_next(None)
+            node.set_prev(None)
+            node.set_next(self.head)
+            self.head.set_prev(node)
+            self.head = node
 
     """
     Removes the input node from its current spot in the 
@@ -137,12 +156,19 @@ class DoublyLinkedList:
     """
 
     def move_to_end(self, node):
-        if node.next != None and node.prev != None:
+        if node.next != None and node.prev != None:  # if passed node is between other nodes
             tempNextPointer = node.next
             tempPrevPointer = node.prev
-            node.prev.set_prev(tempNextPointer)
-            node.next.set_next(tempPrevPointer)
+            node.prev.set_prev(tempPrevPointer)
+            node.next.set_next(tempNextPointer)
 
+            node.set_next(None)
+            node.set_prev(self.tail)
+            self.tail.set_next(node)
+            self.tail = node
+        elif node.next != None and node.prev == None:  # if passed node is the first node in the linked list
+            self.head = node.next
+            node.next.set_prev(None)
             node.set_next(None)
             node.set_prev(self.tail)
             self.tail.set_next(node)
@@ -155,7 +181,7 @@ class DoublyLinkedList:
 
     def delete(self, node):
 
-        if node.next != None and node.prev != None:
+        if node.next != None and node.prev != None:  # more than one node in the linked list
             tempNextPointer = node.next
             tempPrevPointer = node.prev
             node.prev.set_prev(tempNextPointer)
@@ -163,9 +189,21 @@ class DoublyLinkedList:
 
             node.set_next(None)
             node.set_prev(None)
-        else:
+            self.length -= 1
+        elif node.prev == None and node.next != None:
+            node.next.set_prev(None)
+            self.head = node.next
+            node.set_next(None)
+            self.length -= 1
+        elif node.next == None and node.prev != None:
+            node.prev.set_next(None)
+            self.tail = node.prev
+            node.set_prev(None)
+            self.length -= 1
+        else:       # if only one node in the linked list
             self.head = None
             self.tail = None
+            self.length = 0
     """
     Finds and returns the maximum value of all the nodes 
     in the List.
