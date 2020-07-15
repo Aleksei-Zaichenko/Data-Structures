@@ -65,19 +65,8 @@ class DoublyLinkedList:
 
         if self.head != None:
 
-            tempPointer = self.head
             result = self.head.get_value()
-
-            if self.head.next != None:  # If there are more than one node in the linked list
-                self.head.next.set_prev(None)
-                self.head = self.head.next
-
-                tempPointer.set_next(None)
-                self.length -= 1
-            else:  # linked list contains only one node
-                self.head = None
-                self.tail = None
-                self.length = 0
+            self.delete(self.head)
             return result
 
         return None
@@ -110,18 +99,7 @@ class DoublyLinkedList:
 
         if self.tail != None:
             result = self.tail.get_value()
-
-            if self.tail.prev != None:
-                self.length -= 1
-                tempPointer = self.tail
-
-                self.tail = self.tail.prev
-                tempPointer.set_prev(None)
-            else:
-                self.head = None
-                self.tail = None
-                self.length = 0
-
+            self.delete(self.tail)
             return result
 
         return None
