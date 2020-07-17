@@ -1,3 +1,5 @@
+from queue import Queue
+from stack import Stack
 """
 Binary search trees are a data structure that enforce an ordering over 
 the data they store. That ordering in turn makes it a lot more efficient 
@@ -9,6 +11,8 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
+
+
 class BSTNode:
     def __init__(self, value):
         self.value = value
@@ -41,12 +45,11 @@ class BSTNode:
         else:
             if(self.left is None):
                 return False
-            else: 
-                return self.left.contains(target) 
-
-
+            else:
+                return self.left.contains(target)
 
     # Return the maximum value found in the tree
+
     def get_max(self):
         max = self.value
 
@@ -69,23 +72,67 @@ class BSTNode:
         if(self.right != None):
             self.right.for_each(fn)
 
-
     # Part 2 -----------------------
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
+
     def in_order_print(self, node):
-        pass
+        if self is None:
+            return
+        # check if we can "move left"
+        if self.left is not None:
+            self.left.in_order_print(self.left)
+        # visit the node by printing its value
+        print(self.value)
+        # check if we can "move right"
+        if self.right is not None:
+            self.right.in_order_print(self.right)
+
+
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+     # You should import the queue class from earlier in the
+        # week and use that class to implement this method
+        # Use a queue to form a "line"
+        # for the nodes to "get in"
+
+        # start by placing the root in the queue
+
+        # need a while loop to iterate
+        # what are we checking in the while statement?
+        # while length of queue is greater than 0
+        # dequeue item from front of queue
+        # print that item
+
+        # place current item's left node in queue if not None
+        # place current item's right node in queue if not None
+        queue = Queue()
+        if self:
+            queue.enqueue(self)
+        while queue.__len__() > 0:
+            current_node = queue.dequeue()
+            print(current_node.value)
+            if current_node.left != None:
+                queue.enqueue(current_node.left)
+            if current_node.right != None :
+                queue.enqueue(current_node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        stack = Stack()
+        if self:
+            stack.push(self)
+        while stack.__len__() > 0:
+            current_node = stack.pop()
+            print(current_node.value)
+            if current_node.right != None:
+                stack.push(current_node.right)
+            if current_node.left != None:
+                stack.push(current_node.left)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
