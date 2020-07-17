@@ -40,22 +40,22 @@ Stretch: What if you could only use instances of your Stack class to implement t
 
 # 2
 # Queue using Linkedlist class
-# class Queue:
-#     def __init__(self):
-#         self.size = 0
-#         self.storage = LinkedList()
+class Queue:
+    def __init__(self):
+        self.size = 0
+        self.storage = LinkedList()
 
-#     def __len__(self):
-#         return self.size
+    def __len__(self):
+        return self.size
 
-#     def enqueue(self, value):
-#         self.size += 1
-#         self.storage.add_to_tail(value)
+    def enqueue(self, value):
+        self.size += 1
+        self.storage.add_to_tail(value)
 
-#     def dequeue(self):
-#         if(self.size > 0):
-#             self.size -= 1
-#             return self.storage.remove_head()
+    def dequeue(self):
+        if(self.size > 0):
+            self.size -= 1
+            return self.storage.remove_head()
 
 
 # 3
@@ -68,31 +68,31 @@ Stretch: What if you could only use instances of your Stack class to implement t
 
 # Stretch
 # I used two Stacks to create a Queue
-class Queue:
-    def __init__(self):
-        self.size = 0
-        self.storage = Stack()
-        self.tempStorage = Stack()
+# class Queue:
+#     def __init__(self):
+#         self.size = 0
+#         self.storage = Stack()
+#         self.tempStorage = Stack()
 
-    def __len__(self):
-        return self.size
+#     def __len__(self):
+#         return self.size
 
-    def enqueue(self, value):
-        self.size += 1
-        self.storage.push(value)
+#     def enqueue(self, value):
+#         self.size += 1
+#         self.storage.push(value)
 
-    def dequeue(self):
-        if(self.size > 0):
+#     def dequeue(self):
+#         if(self.size > 0):
 
-            while(self.storage.__len__() != 1):
-                self.tempStorage.push(self.storage.pop())
-                print(self.storage.__len__())
+#             while(self.storage.__len__() != 1):
+#                 self.tempStorage.push(self.storage.pop())
+#                 print(self.storage.__len__())
 
-            result = self.storage.pop()
+#             result = self.storage.pop()
 
-            while(self.tempStorage.__len__() != 0):
-                self.storage.push(self.tempStorage.pop())
-                print(self.tempStorage.__len__())
+#             while(self.tempStorage.__len__() != 0):
+#                 self.storage.push(self.tempStorage.pop())
+#                 print(self.tempStorage.__len__())
 
-            self.size -= 1
-            return result
+#             self.size -= 1
+#             return result
